@@ -15,13 +15,13 @@ public class GroceryStore {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long groceryStoreId;
     private String storeName;
+    private String streetAddress;
+    private String city;
+    private int zip;
+    private String state;
+    private String country;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "addressId")
-    @PrimaryKeyJoinColumn
-    private Address address;
+
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToMany(cascade = CascadeType.PERSIST)

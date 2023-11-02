@@ -1,12 +1,8 @@
 package com.grocerystore.controller.model;
 
-import com.grocerystore.entity.Address;
 import com.grocerystore.entity.Customer;
 import com.grocerystore.entity.Employee;
 import com.grocerystore.entity.GroceryStore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +15,11 @@ public class GroceryStoreData {
 
     private Long groceryStoreId;
     private String storeName;
-    private Address addresses;
+    private String streetAddress;
+    private String city;
+    private int zip;
+    private String state;
+    private String country;
     Set<EmployeeData> employees = new HashSet<>();
     Set<CustomerData> customers = new HashSet<>();
 
@@ -27,7 +27,11 @@ public class GroceryStoreData {
     public GroceryStoreData(GroceryStore groceryStore) {
         this.groceryStoreId = groceryStore.getGroceryStoreId();
         this.storeName = groceryStore.getStoreName();
-        this.addresses = groceryStore.getAddress();
+        this.streetAddress=groceryStore.getStreetAddress();
+        this.city=groceryStore.getCity();
+        this.state=groceryStore.getState();
+        this.zip= groceryStore.getZip();
+        this.country=groceryStore.getCountry();
         for (Customer customer : groceryStore.getCustomers()) {
             customers.add(new CustomerData(customer));
         }

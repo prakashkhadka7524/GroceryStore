@@ -22,14 +22,14 @@ public class CustomerData {
         customerEmail = customer.getCustomerEmail();
     }
 
-    public Customer setCustomer() {
-        Customer customer = new Customer();
-        customer.setCustomerId(customerId);
-        customer.setCustomerFirstName(customerFirstName);
-        customer.setCustomerLastName(customerLastName);
-        customer.setCustomerPhone(customerPhone);
-        customer.setCustomerEmail(customerEmail);
-        return customer;
-
-    }
+//    public Customer setCustomer() {
+//        Customer customer = new Customer();
+//        customer.setCustomerId(customerId);
+//        customer.setCustomerFirstName(customerFirstName);
+//        customer.setCustomerLastName(customerLastName);
+//        customer.setCustomerPhone(customerPhone);
+//        customer.setCustomerEmail(customerEmail);
+//        return customer;
+//
+//    }
 }

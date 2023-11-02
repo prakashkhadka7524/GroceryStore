@@ -1,6 +1,5 @@
 package com.grocerystore.controller.model;
 
-import com.grocerystore.entity.Address;
 import com.grocerystore.entity.Employee;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,14 +23,14 @@ public class EmployeeData {
         employeeEmail = employee.getEmployeeEmail();
     }
 
-    public Employee setEmployee() {
-        Employee employee = new Employee();
-        employee.setEmployeeId(employeeId);
-        employee.setEmployeeFirstName(employeeFirstName);
-        employee.setEmployeeLastName(employeeLastName);
-        employee.setEmployeeSocialSecurityNumber(employeeSocialSecurityNumber);
-        employee.setEmployeePhoneNumber(employeePhoneNumber);
-        employee.setEmployeeEmail(employeeEmail);
-        return employee;
-    }
+//    public Employee setEmployee() {
+//        Employee employee = new Employee();
+//        employee.setEmployeeId(employeeId);
+//        employee.setEmployeeFirstName(employeeFirstName);
+//        employee.setEmployeeLastName(employeeLastName);
+//        employee.setEmployeeSocialSecurityNumber(employeeSocialSecurityNumber);
+//        employee.setEmployeePhoneNumber(employeePhoneNumber);
+//        employee.setEmployeeEmail(employeeEmail);
+//        return employee;
+//    }
 }

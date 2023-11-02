@@ -1,14 +1,11 @@
 package com.grocerystore.service;
 
-import com.grocerystore.controller.model.AddressData;
 import com.grocerystore.controller.model.CustomerData;
 import com.grocerystore.controller.model.EmployeeData;
 import com.grocerystore.controller.model.GroceryStoreData;
-import com.grocerystore.dao.AddressDao;
 import com.grocerystore.dao.CustomerDao;
 import com.grocerystore.dao.EmployeeDao;
 import com.grocerystore.dao.GroceryStoreDao;
-import com.grocerystore.entity.Address;
 import com.grocerystore.entity.Customer;
 import com.grocerystore.entity.Employee;
 import com.grocerystore.entity.GroceryStore;
@@ -16,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class GroceryStoreService {
@@ -29,8 +23,6 @@ public class GroceryStoreService {
     CustomerDao customerDao;
     @Autowired
     private GroceryStoreDao groceryStoreDao;
-    @Autowired
-    private AddressDao addressDao;
 
     public GroceryStoreService() {
     }
@@ -45,6 +37,11 @@ public class GroceryStoreService {
     private void setGroceryStore(GroceryStore groceryStore, GroceryStoreData groceryStoreData) {
         groceryStore.setGroceryStoreId(groceryStoreData.getGroceryStoreId());
         groceryStore.setStoreName(groceryStoreData.getStoreName());
+        groceryStore.setStreetAddress(groceryStoreData.getStreetAddress());
+        groceryStore.setCity(groceryStoreData.getCity());
+        groceryStore.setState(groceryStoreData.getState());
+        groceryStore.setZip(groceryStoreData.getZip());
+        groceryStore.setCountry(groceryStoreData.getCountry());
     }
 
     private GroceryStore findOrCreateGroceryStore(Long groceryStoreId) {
@@ -143,7 +140,7 @@ public class GroceryStoreService {
 
         return customer;
     }
-@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<GroceryStoreData> retriveAllGroceryStores() {
         List<GroceryStore> groceryStores=groceryStoreDao.findAll();
         List<GroceryStoreData> groceryStoreDataList= new LinkedList<>();
@@ -160,51 +157,22 @@ public class GroceryStoreService {
         return new GroceryStoreData(groceryStore);
     }
 
-    public AddressData saveAddress(Long groceryStoreId, AddressData addressData) {
-        GroceryStore groceryStore = findGroceryStoreById(groceryStoreId);
-        Address address = findOrCreateAddress(groceryStoreId, addressData.getAddressId());
-        setAddress(address, addressData);
-        Address dbAddress = addressDao.save(address);
-        return new AddressData(dbAddress);
-    }
-    public void setAddress(Address address, AddressData addressData) {
-        address.setAddressId(addressData.getAddressId());
-        address.setStreetAddress(addressData.getStreetAddress());
-        address.setCity(addressData.getCity());
-        address.setZip(addressData.getZip());
-        address.setState(addressData.getState());
-        address.setCountry(addressData.getCountry());
-    }
 
-        private Address findOrCreateAddress(Long groceryStoreId, Long addressId) {
-        Address address;
-        if (Objects.isNull(addressId)){
-            address= new Address();
-        }
-        else {
-            address=findAddressById(groceryStoreId, addressId);
-        }
-        return address;
-    }
 
-    private Address findAddressById(Long groceryStoreId, Long addressId) {
-        Address address = addressDao.findById(addressId)
-                .orElseThrow(() -> new NoSuchElementException("Address with Id " + addressId
-                        + " was not found"));
-        return address;
-    }
+
     public GroceryStoreData updateGroceryStore(Long groceryStoreId, GroceryStoreData groceryStoreData){
-      findGroceryStoreById(groceryStoreId);
-     return saveGroceryData(groceryStoreData);
-        }
+        findGroceryStoreById(groceryStoreId);
+        return saveGroceryData(groceryStoreData);
+    }
 
     public void deleteGroceryStore(Long groceryStoreId) {
-    groceryStoreDao.findById(groceryStoreId);
-      groceryStoreDao.deleteById(groceryStoreId);
+        findGroceryStoreById(groceryStoreId);
+        groceryStoreDao.deleteById(groceryStoreId);
 
     }
-}
 
+
+}
 
 
 
