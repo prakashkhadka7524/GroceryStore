@@ -61,10 +61,11 @@ public class GroceryStoreController {
         return groceryStoreService.saveEmployee(employeeId, employeeData);
     }
     @PutMapping("{groceryStoreId}/customer-update/{customerId}")
-    public CustomerData updateCustomer(@PathVariable Long groceryStoreId,@PathVariable Long customerId, @RequestBody CustomerData customerData){
-        log.info("Updating Customer of ID {}, {}, {}, {}",customerId,"of grocery store ID", groceryStoreId, customerData);
+    public CustomerData updateCustomer(@PathVariable Long groceryStoreId, @PathVariable Long customerId, @RequestBody CustomerData customerData
+    ){
+        log.info("Updating Customer of ID {}, {}, {}, {}",customerId," of grocery store ID ", groceryStoreId, customerData);
         customerData.setCustomerId(customerId);
-        return groceryStoreService.saveCustomer(customerId,customerData);
+        return groceryStoreService.saveCustomer(customerId, customerData);
     }
 
     @DeleteMapping("delete/{groceryStoreId}")
