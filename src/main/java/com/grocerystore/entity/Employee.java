@@ -23,4 +23,5 @@ public class Employee {
     @JoinColumn(name = "grocery_store_id")
     private GroceryStore groceryStore;
 
+
 }

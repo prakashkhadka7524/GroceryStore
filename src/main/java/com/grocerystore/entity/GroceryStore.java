@@ -21,7 +21,6 @@ public class GroceryStore {
     private String state;
     private String country;
 
-
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToMany(cascade = CascadeType.PERSIST)
