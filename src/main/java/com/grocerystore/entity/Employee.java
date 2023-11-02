@@ -22,4 +22,5 @@ public class Employee {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "grocery_store_id")
     private GroceryStore groceryStore;
+
 }
