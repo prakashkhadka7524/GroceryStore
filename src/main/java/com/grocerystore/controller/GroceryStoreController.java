@@ -28,6 +28,7 @@ public class GroceryStoreController {
     @PostMapping("{groceryStoreId}/employee")
     public EmployeeData insertEmployee(@PathVariable Long groceryStoreId, @RequestBody EmployeeData employeeData) {
         log.info("Creating Employee of Grocery Store {}", employeeData);
+        groceryStoreService.findGroceryStoreById(groceryStoreId);
         return groceryStoreService.saveEmployee(groceryStoreId, employeeData);
     }
 
@@ -35,6 +36,7 @@ public class GroceryStoreController {
     @PostMapping("{groceryStoreId}/customer")
     public CustomerData insertCustomer(@PathVariable Long groceryStoreId, @RequestBody CustomerData customerData) {
         log.info("Creating Customer Grocery Store {} ", customerData);
+        groceryStoreService.findGroceryStoreById(groceryStoreId);
         return groceryStoreService.saveCustomer(groceryStoreId, customerData);
     }
 
@@ -55,17 +57,17 @@ public class GroceryStoreController {
         return groceryStoreService.updateGroceryStore(groceryStoreId,groceryStoreData);
     }
     @PutMapping("{groceryStoreId}/employee-update/{employeeId}")
-    public EmployeeData updateEmployee(@PathVariable Long groceryStoreId, @PathVariable Long employeeId, @RequestBody EmployeeData employeeData){
-        log.info("Updating Employee of ID {}, {}, {}, {}",employeeId," of grocery store ID ", groceryStoreId, employeeData);
+    public EmployeeData updateEmployee( @PathVariable Long groceryStoreId,@PathVariable Long employeeId, @RequestBody EmployeeData employeeData){
+        log.info("Updating Employee of ID {}, {}",employeeId, employeeData);
         employeeData.setEmployeeId(employeeId);
-        return groceryStoreService.saveEmployee(employeeId, employeeData);
+        return groceryStoreService.updateEmployee(groceryStoreId,employeeId, employeeData);
     }
     @PutMapping("{groceryStoreId}/customer-update/{customerId}")
-    public CustomerData updateCustomer(@PathVariable Long groceryStoreId, @PathVariable Long customerId, @RequestBody CustomerData customerData
+    public CustomerData updateCustomer( @PathVariable Long groceryStoreId,@PathVariable Long customerId, @RequestBody CustomerData customerData
     ){
-        log.info("Updating Customer of ID {}, {}, {}, {}",customerId," of grocery store ID ", groceryStoreId, customerData);
+        log.info("Updating Customer of ID {}, {}",customerId, customerData);
         customerData.setCustomerId(customerId);
-        return groceryStoreService.saveCustomer(customerId, customerData);
+        return groceryStoreService.updateCustomer(groceryStoreId,customerId, customerData);
     }
 
     @DeleteMapping("delete/{groceryStoreId}")
@@ -74,5 +76,15 @@ public class GroceryStoreController {
         groceryStoreService.deleteGroceryStore(groceryStoreId);
         return Map.of("message", "Deletion of grocery store with ID="+ groceryStoreId +" is successful");
 
+    }
+    @GetMapping("/all-employee")
+    public List<EmployeeData> allEmployee(){
+        log.info("Getting all Employee []");
+        return groceryStoreService.retriveAllEployee();
+    }
+    @GetMapping("/all-customer")
+    public List<CustomerData> allCustomer(){
+        log.info("Getting all Customer []");
+        return groceryStoreService.retriveAllCustomer();
     }
 }

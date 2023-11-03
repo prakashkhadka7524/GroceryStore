@@ -56,13 +56,14 @@ public class GroceryStoreService {
 
     public GroceryStore findGroceryStoreById(Long groceryStoreId) {
         return groceryStoreDao.findById(groceryStoreId).orElseThrow(() ->
-                new NoSuchElementException("Grocery Store with Id " + groceryStoreId + "was not found"));
+                new NoSuchElementException("Grocery Store with Id " + groceryStoreId + " was not found"));
     }
 
     @Transactional(readOnly = false)
     public EmployeeData saveEmployee(Long groceryId, EmployeeData employeeData) {
         GroceryStore groceryStore = findGroceryStoreById(groceryId);
-        Employee employee = findOrCreateEmployee(employeeData.getEmployeeId());
+        Long employeeId = employeeData.getEmployeeId();
+        Employee employee = findOrCreateEmployee(employeeId);
         setEmployee(employee, employeeData);
         employee.setGroceryStore(groceryStore);
         groceryStore.getEmployees().add(employee);
@@ -90,7 +91,7 @@ public class GroceryStoreService {
         return employee;
     }
 
-    private Employee findEmployeeById(Long employeeId) {
+    public Employee findEmployeeById(Long employeeId) {
         return employeeDao.findById(employeeId).orElseThrow(() -> new NoSuchElementException("Employee with Id " + employeeId
                 + " was not found"));
     }
@@ -98,7 +99,8 @@ public class GroceryStoreService {
     @Transactional(readOnly = false)
     public CustomerData saveCustomer(Long groceryStoreId, CustomerData customerData) {
         GroceryStore groceryStore = findGroceryStoreById(groceryStoreId);
-        Customer customer = findOrCreateCustomer(groceryStoreId, customerData.getCustomerId());
+        Long customerId = customerData.getCustomerId();
+        Customer customer = findOrCreateCustomer(customerId);
         setCustomerFields(customer, customerData);
         customer.getGroceryStores().add(groceryStore);
         groceryStore.getCustomers().add(customer);
@@ -114,32 +116,22 @@ public class GroceryStoreService {
         customer.setCustomerEmail(customerData.getCustomerEmail());
     }
 
-    private Customer findOrCreateCustomer(Long groceryStoreId, Long customerId) {
+    private Customer findOrCreateCustomer( Long customerId) {
         Customer customer;
         if (Objects.isNull(customerId)) {
             customer = new Customer();
         } else {
-            customer = findCustomerById(groceryStoreId, customerId);
+            customer = findCustomerById( customerId);
         }
         return customer;
     }
 
-    private Customer findCustomerById(Long groceryStoreId, Long customerId) {
-        Customer customer = customerDao.findById(customerId)
+    public Customer findCustomerById( Long customerId) {
+        return customerDao.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer with Id " + customerId
                         + " was not found"));
-        boolean found = false;
-        for (GroceryStore groceryStore : customer.getGroceryStores()) {
-            if (Objects.equals(groceryStore.getGroceryStoreId(), groceryStoreId)) {
-                found = true;
-                break;
-            }
-            throw new IllegalArgumentException("Customer with ID" + customerId + "not found in customer");
-        }
-
-
-        return customer;
     }
+
     @Transactional(readOnly = true)
     public List<GroceryStoreData> retriveAllGroceryStores() {
         List<GroceryStore> groceryStores=groceryStoreDao.findAll();
@@ -164,6 +156,17 @@ public class GroceryStoreService {
         findGroceryStoreById(groceryStoreId);
         return saveGroceryData(groceryStoreData);
     }
+    public EmployeeData updateEmployee(Long groceryStoreId,Long employeeId, EmployeeData employeeData){
+        findGroceryStoreById(groceryStoreId);
+        findEmployeeById(employeeId);
+        return saveEmployee(groceryStoreId,employeeData);
+    }
+    public CustomerData updateCustomer(Long groceryStoreId,Long customerId, CustomerData customerData){
+        findGroceryStoreById(groceryStoreId);
+        findEmployeeById(customerId);
+        return saveCustomer(groceryStoreId,customerData);
+    }
+
 
     public void deleteGroceryStore(Long groceryStoreId) {
         findGroceryStoreById(groceryStoreId);
@@ -172,7 +175,28 @@ public class GroceryStoreService {
     }
 
 
+    public List<EmployeeData> retriveAllEployee() {
+        List<Employee> employees=employeeDao.findAll();
+        List<EmployeeData> employeeDataList= new LinkedList<>();
+        for (Employee employee : employees){
+            EmployeeData employeeData= new EmployeeData(employee);
+            employeeDataList.add(employeeData);
+        }
+        return employeeDataList;
+    }
+
+    public List<CustomerData> retriveAllCustomer() {
+        List<Customer> customers=customerDao.findAll();
+        List<CustomerData> customerDataList= new LinkedList<>();
+        for (Customer customer : customers){
+            CustomerData customerData= new CustomerData(customer);
+            customerDataList.add(customerData);
+        }
+        return customerDataList;
+    }
+
 }
+
 
 
 
