@@ -156,16 +156,8 @@ public class GroceryStoreService {
         findGroceryStoreById(groceryStoreId);
         return saveGroceryData(groceryStoreData);
     }
-    public EmployeeData updateEmployee(Long groceryStoreId,Long employeeId, EmployeeData employeeData){
-        findGroceryStoreById(groceryStoreId);
-        findEmployeeById(employeeId);
-        return saveEmployee(groceryStoreId,employeeData);
-    }
-    public CustomerData updateCustomer(Long groceryStoreId,Long customerId, CustomerData customerData){
-        findGroceryStoreById(groceryStoreId);
-        findEmployeeById(customerId);
-        return saveCustomer(groceryStoreId,customerData);
-    }
+
+
 
 
     public void deleteGroceryStore(Long groceryStoreId) {
